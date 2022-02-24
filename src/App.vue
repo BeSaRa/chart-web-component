@@ -1,28 +1,22 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <GoogleChart :risk_ids="{
+		low: 'top10--low--has_cppi--cf455040-22de-4972-afc5-98d5c1a645e5',
+		mid: 'top10--low--has_cppi--cf455040-22de-4972-afc5-98d5c1a645e5',
+		high: 'top10--high--has_cppi--cf455040-22de-4972-afc5-98d5c1a645e5'
+}"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
+
+import GoogleChart from "@/components/GoogleChart";
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    GoogleChart
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
