@@ -1,11 +1,27 @@
 <template>
-  <div>
-    <GChart
-        v-if="data_loaded"
-        type="LineChart"
-        :options="options"
-        :data="chartData"
-    />
+  <div class="chart-web-component">
+    <div class="chart-content" v-if="data_loaded">
+      <ul class="buttons-list">
+        <li>
+          <button class="active">BTC/ETH</button>
+        </li>
+        <li>
+          <button>TOP5</button>
+        </li>
+        <li>
+          <button>TOP10</button>
+        </li>
+      </ul>
+      <GChart class="chart"
+              type="LineChart"
+              :options="options"
+              :data="chartData"
+      />
+      <div class="risk-management">
+        <input id="auto_risk_management" type="checkbox">
+        <label for="auto_risk_management">Automatic Risk Management</label>
+      </div>
+    </div>
     <div v-else>
       Loading Chart data...
     </div>
@@ -14,6 +30,7 @@
 
 <script>
 import {GChart} from "vue-google-charts";
+import dayjs from "dayjs";
 
 const API = 'https://api.ridian.io/fund_performances';
 export default {
@@ -32,11 +49,12 @@ export default {
         backgroundColor: "#212121",
         height: 369,
         legend: {
-          position: "top",
+          position: "bottom",
+          alignment: 'start',
           textStyle: {color: "white"},
         },
         hAxis: {
-          textStyle: {color: "white"},
+          textStyle: {color: "white", fontSize: 10},
         },
         vAxis: {
           textStyle: {color: "white"},
@@ -72,7 +90,7 @@ export default {
       const dates = Object.keys(this.navs["low"]).sort();
       const data = dates.map((date) => {
         return [
-          date,
+          dayjs(date).format('DD MMM'),
           this.navs["low"][date],
           this.navs["mid"][date],
           this.navs["high"][date],
@@ -108,4 +126,50 @@ export default {
 };
 </script>
 <style>
+.chart-web-component {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.chart-content {
+  display: flex;
+  align-self: stretch;
+  flex-direction: column;
+  position: relative;
+}
+
+.buttons-list {
+  list-style: none;
+  display: flex;
+  align-self: center;
+  background-color: #171926;
+  padding: 5px;
+  border-radius: 10px;
+  margin: 0 0 5px;
+}
+
+.buttons-list button {
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: transparent;
+  color: #717380;
+}
+
+.buttons-list button.active {
+  background-color: #1375EA;
+  color: white;
+}
+
+.chart {
+  flex-grow: 1;
+}
+
+.risk-management {
+  position: absolute;
+  bottom: 10px;
+  right: 200px;
+  color: rgba(255, 255, 255, .7);
+}
 </style>
